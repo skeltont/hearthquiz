@@ -1,0 +1,147 @@
+extends layout
+
+block content
+	div
+		form(action='/api/get_card', method='post', id="#form_get_card")
+			div(data-role='fieldcontain')
+					div(id="whoops")
+
+					div(class="container")
+						div(class="row")
+							div(class="col-xs-4 col-md-4")
+							div(class="col-xs-4 col-md-4")
+								div(class="well clearfix")
+									input(type="button" value="New Card" onClick="window.location.reload();")
+									h1(id="result_title" align="center")
+									img(id="card_img" src="/images/mystery.png")
+						div(class="row")
+							div(class="col-xs-4 col-md-4")			
+							div(class="col-xs-4 col-md-4")
+								div(id="hint1" class="col-xs-12 col-md-12 alert alert-info")
+
+								div(id="hint2" class="col-xs-12 col-md-12 alert alert-warning")
+
+								div(id="answer0" class="col-xs-6 col-md-6")
+								div(id="answer1" class="col-xs-6 col-md-6")
+
+								div(id="answer2" class="col-xs-6 col-md-6")
+								div(id="answer3" class="col-xs-6 col-md-6")
+							div(Class="col-xs-4 col-md-4")
+
+
+
+			script(type="text/javascript").
+				$(function () {
+
+					$(document).ready(function (e) {
+
+							
+
+						$.ajax({
+							type: 'POST',
+							contentType: 'application/json',
+							url: 'http://104.131.55.36:3000/api/get_round',
+							success: function(data) {
+								$('#result_title').append('MYSTERY');
+								console.log('successfully sent request to api for the round');
+									
+
+								var answers = [ 
+									Math.round(Math.random() * 381),
+									Math.round(Math.random() * 381),
+									Math.round(Math.random() * 381),
+									Math.round(Math.random() * 381)		
+								];
+
+								correct = answers[Math.round(Math.random() * 3)];
+								//console.log(data.cards[correct]);
+
+
+								var value = data.cards[correct].name;
+								value = value.replace(/\b./g, function(m){ return m.toUpperCase(); });
+								value = value.replace(" ", function(m){ return ""; });
+
+								//value = value.replace(" ", "");	
+
+								for (i = 0; i < 4; i++) {
+									if (answers[i] == correct){
+							    		$('#answer'+i).append('<button name="button'+i+'" value="'+value+'" id="button'+i+'">'+data.cards[answers[i]].name+'</button>')
+							    	} else {
+							    		$('#answer'+i).append('<button name="button'+i+'" value="" id="button'+i+'">'+data.cards[answers[i]].name+'</button>')
+							    	}
+								}
+
+
+								if(data.cards[correct].card_type=='Minion') {
+									$('#hint1').append('<b>Class:</b><br/> '+data.cards[correct].hero)
+									if(data.cards[correct].description != "") {
+										$('#hint2').append("<b>Description:</b><br/>'"+data.cards[correct].description+"'");
+									} else {
+										$('#hint2').append("<b>Mana Cost:</b><br/>"+data.cards[correct].cost+" crystals");
+									}
+								}else{
+									$('#hint1').append('<b>Class:</b><br/> '+data.cards[correct].hero)
+									$('#hint2').append("<b>Description:</b><br/>'"+data.cards[correct].description+"'")
+
+								}
+
+								//option_2_id = Math.random() * 
+								//console.log(data.cards);
+								//- console.log(data.cards[381].id);
+
+
+							}
+						})
+					});
+					$("#answer0").click(function (e) {
+						e.preventDefault();
+						//alert('got heem');
+						// need logic here to see if the card is correct
+						if ($('#button0').val() != ''){
+							$('#result_title').html('<span style="color:green">CORRECT</span>');
+							var src = "http://www.hearthstonewarcraft.com/images/cards/"+$("#button0").val()+"_hearthstone.png";
+						} else {
+							$('#result_title').html('<span style="color:red">INCORRECT</span>');
+						}
+						$("#card_img").attr("src", src);
+					});
+					$("#answer1").click(function (e) {
+						e.preventDefault();
+						//alert('got heem');
+						// need logic here to see if the card is correct
+						if ($('#button1').val() != ''){
+							$('#result_title').html('<span style="color:green">CORRECT</span>');
+							var src = "http://www.hearthstonewarcraft.com/images/cards/"+$("#button1").val()+"_hearthstone.png";
+						} else {
+							$('#result_title').html('<span style="color:red">INCORRECT</span>');
+						}
+						$("#card_img").attr("src", src);
+					});
+					$("#answer2").click(function (e) {
+						e.preventDefault();
+						//alert('got heem');
+						// need logic here to see if the card is correct
+						if ($('#button2').val() != ''){
+							$('#result_title').html('<span style="color:green">CORRECT</span>');
+							var src = "http://www.hearthstonewarcraft.com/images/cards/"+$("#button2").val()+"_hearthstone.png";
+						} else {
+							$('#result_title').html('<span style="color:red">INCORRECT</span>');
+						}
+						$("#card_img").attr("src", src);
+					});
+					$("#answer3").click(function (e) {
+						e.preventDefault();
+						//alert('got heem');
+						// need logic here to see if the card is correct
+						if ($('#button3').val() != ''){
+							$('#result_title').html('<span style="color:green">CORRECT</span>');
+							var src = "http://www.hearthstonewarcraft.com/images/cards/"+$("#button3").val()+"_hearthstone.png";
+						} else {
+							$('#result_title').html('<span style="color:red">INCORRECT</span>');
+						}
+						$("#card_img").attr("src", src);
+					})
+				});
+
+
+
