@@ -65,10 +65,7 @@ router.get('/get_round', function (req, res, next) {
           },
         ],
       }
-
-      console.log(data);
-
-
+      
       res.send(data);
   });
 });
