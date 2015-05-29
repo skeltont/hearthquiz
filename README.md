@@ -1,5 +1,5 @@
 # hearthquiz
-A quick hearthstone quiz game written in javascript.
+A quick hearthstone quiz game written with expressjs.
 
 ###Install & Run:
 <ol>
