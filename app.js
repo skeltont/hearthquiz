@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
 var jquery = require('jquery');
-var hc_repo = require('hearthstone-card-repo');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,7 +28,6 @@ app.use('jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/api', api);
 
 // catch 404 and forward to error handler
